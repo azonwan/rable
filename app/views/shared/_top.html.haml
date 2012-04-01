@@ -1,0 +1,17 @@
+#TopMain
+  = link_to Settings.site_name, root_path, :class => :logo
+  #Navigation
+    %ul
+      %li= link_to '首页', root_path, :class => link_class
+      - if user_signed_in?
+        %li= link_to current_user.nickname, member_path(current_user.nickname), :class => link_class
+        %li= link_to '设置', settings_path, :class => link_class
+        - if current_user.can_manage_site?
+          %li= link_to '管理后台', admin_root_path, :class => link_class
+        %li= link_to '登出', destroy_user_session_path, :method => :delete, :class => link_class
+      - else
+        %li= link_to '注册', new_user_registration_path, :class => link_class
+        %li= link_to '登入', new_user_session_path, :class => link_class
+  #Search
+    .search_input
+      %input#q{:type => 'text', :maxlength => 40, :name => 'q', :data => {:domain => Settings.site_domain}}

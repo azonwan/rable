@@ -1,0 +1,53 @@
+.box{:style => 'float: right; width: 330px;'}
+  .cell
+    .fr
+      共
+      %strong= User.count
+      位注册用户
+    最新用户
+  .inner
+    %table.topics
+      %thead
+        %tr
+          %th.w50 ID
+          %th.auto{:align => :left} 用户名
+          %th.w100 注册时间
+      %tbody
+        - User.order('created_at DESC').limit(5).each do |user|
+          %tr
+            %td.w50
+              %strong.green
+                = user.id
+            %td.auto
+              = link_to user.nickname, member_path(user.nickname)
+            %td.w100
+              %small.fade= time_ago_in_words(user.created_at)
+
+.box.fix_cell{:style => 'width: 375px;'}
+  .cell
+    .fr
+      共
+      %strong= Plane.count
+      个位面, 包含
+      %strong= Node.count
+      个节点
+    最新节点
+  - Plane.limit(5).each do |plane|
+    .cell
+      .fr
+        - plane.nodes.order('created_at DESC').limit(5).each do |node|
+          = link_to node.name, go_path(node.key)
+      = plane.name
+
+.sep20{:style => 'clear: right;'}
+.box
+  .cell
+    .fr
+      共
+      %strong= Topic.count
+      个主题，包含
+      %strong= Comment.count
+      条回复
+    最新主题
+  .inner
+    = render 'admin/topics/table_view', :topics => Topic.recent_topics

@@ -1,0 +1,28 @@
+%tr{:id => user.html_id}
+  %td{:align => :right}= user.id
+  %td.w50{:align => :right}
+    - if user.root?
+      %strong.green= '创始人'
+    - elsif user.admin?
+      = image_tag 'star.png'
+    - else
+      %span.fade 普通用户
+  %td.auto{:align => :left}
+    %strong= link_to user.nickname, member_path(user.nickname), :class => :black
+  %td.auto{:align => :left}= user.email
+  %td.auto{:align => :right}
+    %small= time_ago_in_words(user.created_at)
+  %td.auto{:align => :right}
+    %small
+      - if user.last_sign_in_at.present?
+        = time_ago_in_words(user.last_sign_in_at)
+      - else
+        未曾登录
+  %td.auto{:align => :center}
+    = image_tag user.avatar.url(:medium)
+  %td{:align => :left}
+    - if current_user.root?
+      - if user.admin?
+        = link_to '取消管理权限', toggle_admin_admin_user_path(user), :method => :post, :remote => true, :class => :opo
+      - elsif not user.root?
+        = link_to '提升为管理员', toggle_admin_admin_user_path(user), :method => :post, :remote => true, :class => :op

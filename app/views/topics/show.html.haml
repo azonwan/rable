@@ -1,0 +1,84 @@
+- if @topic.node.custom_html.present?
+  - content_for :rightbar do
+    .box
+      .inner= @topic.node.custom_html.html_safe
+    .sep20
+
+.box
+  %div{:style => 'min-height: 73px;', :class => @topic.content.present? ? 'cell' : 'inner'}
+    .fr.snow{:style => 'padding-left: 10px; padding-bottom: 10px;'}
+      = link_to member_path(@topic.user.nickname) do
+        = image_tag @topic.user.avatar.url
+    = build_navigation([link_to(@node.name, go_path(@node.key))], 'bigger')
+    %h1= @topic.title
+    %small.fade
+      By
+      = link_to @topic.user.nickname, member_path(@topic.user.nickname), :class => :dark
+      at
+      = time_ago_in_words(@topic.created_at)
+      ,
+      = "#{@topic.hit}次点击"
+      - if can? :update, @topic
+        = link_to '编辑', edit_node_topic_path(@node, @topic), :class => :op
+
+  - if @topic.content.present?
+    .inner
+      .content.topic_content= parse_markdown(@topic.content)
+  - if user_signed_in?
+    .inner
+      .fr{:align => :right}
+        - if @total_bookmarks > 0
+          %span{:style => 'font-size: 10px; line-height: 10px; color: #99a;'}
+            已有
+            = @total_bookmarks
+            人收藏此主题&nbsp;&nbsp;
+        - if current_user.bookmarked?(@topic)
+          = link_to '取消收藏', current_user.bookmark_of(@topic), :method => :delete, :class => :op
+        - else
+          = link_to '加入收藏', topic_bookmarks_path(@topic), :method => :post, :class => :op
+      &nbsp;&nbsp;
+
+.sep20
+
+- if @comments.any?
+  .box
+    .cell
+      .fr.fade
+        ⬇
+        = link_to '跳到回复', 'javascript:void(0);', :class => 'dark jump_to_comment'
+      %span.fade
+        = "#{@total_comments} 回复"
+        %span.snow &nbsp;|&nbsp;
+        直到
+        = Time.now.strftime("%Y-%m-%d %H:%M:%S %p")
+    #replies.fix_cell
+      = render @comments
+    - if @total_pages > 1
+      .inner{:align => :center}
+        = paginate @comments, :param_name => :p, :theme => 'project_babel'
+
+- else
+  .glass{:align => :center}
+    .inner
+      %span.white 目前尚无回复
+
+
+- if user_signed_in?
+  .sep20
+  .box
+    = form_for [@topic, @new_comment] do |f|
+      .cell
+        .fr.fade
+          ⬆ 
+          = link_to '回到顶部', 'javascript:void(0);', :class => 'dark back_to_top'
+        .fade 现在就添加一条回复
+      .cell
+        = f.text_area :content, :class => :mll
+        .sep10
+        .fr.fade#e
+        = f.submit '发送', :class => 'super normal button' 
+    .inner
+      %span{:style => 'font-size: 13px;'}
+        .fr{:style => 'font-size: 12px; margin-left: 20px;'}
+          = link_to "← #{Settings.site_name}", root_path
+        = Settings.comment_tips

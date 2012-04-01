@@ -1,0 +1,75 @@
+.box
+  %div{:class => (@introduction.length > 0) ? 'cell' : 'inner'}
+    %table{:cellpadding => 0, :cellspacing => 0, :border => 0, :width => '100%'}
+      %tr
+        %td{:width => 73, :valign => :top, :align => :center}
+          = image_tag @user.avatar.url
+        %td{:width => 10, :valign => :top}
+        %td{:width => :auto, :align => :left, :valign => :top}
+          - if user_signed_in? and @user != current_user
+            .fr
+              .sep3
+              - if current_user.following?(@user)
+                = link_to '取消特别关注', unfollow_user_path(@user.nickname), :method => :post, :class => 'super inverse button'
+              - else
+                = link_to '加入特别关注', follow_user_path(@user.nickname), :method => :post, :class => 'super special button'
+          %h2{:style => 'padding: 0px; margin: 0px; font-size: 22px; line-height: 22px;'}
+            = @user.nickname
+          - if @signature.length > 0
+            .sep5
+            %span.fade.bigger= @signature
+          .sep5
+          %span.snow
+            = Settings.site_name
+            第
+            = @user.id
+            号会员, 加入于
+            = @user.created_at.strftime("%Y-%m-%d %H:%M:%S %p")
+          .sep10
+          %table{:cellpadding => 2, :cellspacing => 0, :border => 0, :width => '100%'}
+            %tr
+              %td{:width => '50%'}
+                - if @twitter_id.length > 0
+                  %span{:style => 'line-height: 16px;'}
+                    = image_tag 'icon/twitter.png', :align => :absmiddle
+                    &nbsp;
+                    = link_to "@#{@twitter_id}", "http://twitter.com/#{@twitter_id}"
+              %td{:width => '50%'}
+                - follower_count = @user.follower_count
+                - if follower_count > 0
+                  %span{:style => 'line-height: 16px;'}
+                    = image_tag 'heart.png', :align => :absmiddle
+                    = follower_count
+                    = (follower_count > 1) ? 'followers' : 'follower'
+            %tr
+              %td{:width => '50%'}
+                - if @personal_website.length > 0
+                  %span{:style => 'line-height: 16px;'}
+                    = image_tag 'icon/mobileme.png', :align => :absmiddle
+                    &nbsp;
+                    = link_to @personal_website, @personal_website, :target => '_blank', :rel => 'nofollow external'
+            %tr
+              %td{:width => '50%'}
+                - if @location.length > 0
+                  %span{:style => 'line-height: 16px;'}
+                    = image_tag 'icon/location.png', :align => :absmiddle
+                    &nbsp;
+                    = link_to @location, "http://www.google.com/maps?q=#{@location}", :target => '_blank', :rel => 'nofollow external'
+
+  - if @introduction.length > 0
+    .inner= parse_markdown @introduction
+
+.sep20
+.box
+  .cell
+    %span.fade 最近创建主题
+  .inner
+    = render :partial => 'topics/table_view', :locals => { :topics => @user.latest_created_topics }
+
+.sep20
+.box
+  .cell
+    %span.fade 最近参与主题
+  .inner
+    = render :partial => 'topics/table_view', :locals => { :topics => @user.latest_replied_topics }
+

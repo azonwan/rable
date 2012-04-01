@@ -1,0 +1,10 @@
+.plane
+  .box.fix_cell
+    .cell
+      .fr
+        = admin_delete_button(plane, :remote => true)
+      = plane.name
+      %span{:style => 'margin-left: 5px;'}
+        = admin_edit_button('修改位面', plane, :remote => true)
+        = admin_create_button('添加节点', [plane, :node], {:class => :op, :remote => true})
+    = render plane.nodes.order('created_at ASC')

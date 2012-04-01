@@ -1,0 +1,5 @@
+var title = $("title")
+var current_title = title.text();
+title.text(current_title.replace(/\(\d+\)/, ''));
+$("#notification_status").html('<span class="fade">0 条未读提醒</span>');
+$(".mark_all_as_read").remove();

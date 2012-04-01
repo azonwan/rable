@@ -1,0 +1,65 @@
+- content_for :rightbar do
+  .box
+    .cell
+      %span.fade 最热节点
+    .inner{:align => :left}
+      - cache_short('hot_nodes') do
+        = render :partial => 'nodes/item_node', :collection => Node.hot_nodes
+  .sep20
+  .box
+    .cell
+      .fr= link_to '全站最新更改记录', changes_path
+      %span.fade 最近新增节点
+    .inner
+      - cache_short('latest_nodes') do
+        = render :partial => 'nodes/item_node', :collection => Node.recent_nodes
+  .sep20
+  .box
+    .cell
+      %span.fade 社区运行状态
+    .cell
+      - cache_short('community_stats') do
+        %table{:cellpadding => 3, :cellspacing => 0, :border => 0, :width => '100%'}
+          %tr
+            %td{:align => :right, :width => '40%'}
+              %span.fade 注册会员总数
+            %td{:align => :left}
+              %strong= User.count
+          %tr
+            %td{:align => :right, :width => '40%'}
+              %span.fade 主题总数
+            %td{:align => :left}
+              %strong= Topic.count
+          %tr
+            %td{:align => :right, :width => '40%'}
+              %span.fade 回复总数
+            %td{:align => :left}
+              %strong= Comment.count
+    .inner
+      = image_tag 'rss.png', :align => :absmiddle
+      &nbsp;
+      = link_to 'RSS 订阅社区更新', topics_path(:atom), :target => '_blank', :class => :dark
+  .sep20
+
+.box#topics_index
+  .cell{:align => 'left'}
+    .fr
+      %span.fade{:style => 'font-size: 110%'}
+        = Settings.marketing.keywords.join('&nbsp;<span class="snow">&nbsp;•&nbsp;</span>&nbsp;').html_safe
+    %span.bigger= Settings.welcome.html_safe
+    .sep10
+    = Settings.splash.html_safe
+  - cache('home_latest_topics') do
+    = render @topics
+  .inner
+    %span.chevron »
+    = link_to '更多新主题', recent_path
+.sep20
+.box.fix_cell
+  .cell
+    %span.fade
+      %Strong= Settings.site_name
+      \/ 节点导航
+  - if Plane.any?
+    - cache('nav_planes_nodes') do
+      = render Plane.all

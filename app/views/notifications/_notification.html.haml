@@ -1,0 +1,19 @@
+- action_user_name = notification.action_user.nickname
+%tr
+  %td{:width => 32, :align => :left, :valign => :top}
+    = link_to member_path(action_user_name) do
+      = image_tag notification.action_user.avatar.url(:mini)
+  %td{:valign => :top}
+    %span.fade
+      = link_to member_path(action_user_name) do
+        %strong
+          = action_user_name
+      = notification.action_info_prefix
+      = link_to notification.notifiable.notifiable_title, read_notification_path(notification), :method => :put
+      = notification.action_info_suffix + '了你'
+    %span.snow
+      = time_ago_in_words(notification.created_at)
+    .sep5
+    .payload
+      = parse_markdown(notification.content)
+

@@ -1,0 +1,35 @@
+= form_for @user, :url => update_account_path do |f|
+  %table{:cellpadding => 5, :cellspacing => 0, :border => 0}
+    %tr
+      %td{:width => 120, :align => :right} 用户名
+      %td{:width => 200, :align => :left}
+        = @user.nickname
+    %tr
+      %td{:width => 120, :align => :right} 电子邮件
+      %td{:width => 200, :align => :left}
+        = f.email_field :email, :class => :sl
+    = f.fields_for :account do |fields|
+      %tr
+        %td{:width => 120, :align => :right} 个人网站
+        %td{:width => 200, :align => :left}
+          = fields.text_field :personal_website, :class => :sl
+      %tr
+        %td{:width => 120, :align => :right} 所在地
+        %td{:width => 200, :align => :left}
+          = fields.text_field :location, :class => :sl
+      %tr
+        %td{:width => 120, :align => :right} 签名
+        %td{:width => 200, :align => :left}
+          = fields.text_field :signature, :class => :sl
+      %tr
+        %td{:width => 120, :align => :right} 个人简介
+        %td{:width => 200, :align => :left}
+          = fields.text_area :introduction, :class => :ml
+      %tr
+        %td{:width => 120, :align => :right} Twitter
+        %td{:width => 200, :align => :left}
+          = fields.text_field :twitter_id, :class => :sl
+    %tr
+      %td{:align => :right}
+      %td{:width => 200, :align => :left}
+        = f.submit '保存设置', :class => btn_class

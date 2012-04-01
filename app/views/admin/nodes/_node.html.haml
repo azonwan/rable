@@ -1,0 +1,4 @@
+.cell
+  .fr
+    = admin_edit_button('修改节点', [node.plane, node], :remote => true)
+  = link_to node.name, go_path(node.key)

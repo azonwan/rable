@@ -1,0 +1,11 @@
+%tr
+  %td{:align => :right, :width => 100}
+    = link_to page_path(page.key), page_path(page.key)
+  %td{:align => :center, :width => :auto}
+    = page.title
+  %td{:align => :center, :width => :auto}
+    = page_publish_status(page)
+  %td{:align => :left}
+    = admin_edit_button('修改页面', page)
+    = admin_delete_button(page)
+

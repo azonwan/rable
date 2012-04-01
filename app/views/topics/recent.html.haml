@@ -1,0 +1,7 @@
+.box#topics_index
+  .cell
+    = build_navigation([@title])
+  = render @recent_topics
+  .inner
+    %span.chevron »
+    = link_to '继续浏览全站最新更改记录', changes_path

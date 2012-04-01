@@ -1,0 +1,8 @@
+.cell
+  %table{:cellpadding => 0, :cellspacing => 0, :border => 0, :width => '100%'}
+    %tr
+      %td{:align => :right, :width => 80}
+        %span.fade= plane.name
+      %td{:style => 'line-height: 200%; padding-left: 15px;'}
+        = render plane.nodes.order('id ASC').limit(20)
+

@@ -1,0 +1,72 @@
+!!! 5
+%html{:lang => 'zh-CN'}
+  %head
+    = render 'shared/head'
+  %body
+    #Top
+      = render 'shared/top', :link_class => :top
+    #Wrapper
+      #Main
+        #Sidebar
+        #Rightbar
+          .box
+            - if user_signed_in?
+              .cell
+                %table{:cellpadding => 0, :cellspacing => 0, :border => 0, :width => '100%'}
+                  %tr
+                    %td{:width => 48, :valign => :top}
+                      = link_to member_path(current_user.nickname) do
+                        = image_tag current_user.avatar.url(:medium)
+                    %td{:width => 10, :valign => :top}
+                    %td{:width => :auto, :align => :left}
+                      %span.bigger
+                        = link_to current_user.nickname, member_path(current_user.nickname)
+                      .sep5
+                      %span.fade= current_user.account.signature
+                .sep10
+                %table{:cellpadding => 0, :cellspacing => 0, :border => 0, :width => '100%'}
+                  %tr
+                    %td{:width => '33%', :align => :center}
+                      = link_to my_nodes_path, :class => :dark, :style => 'display: block;' do
+                        %span.bigger= current_user.bookmarked_nodes_count
+                        .sep3
+                        %span.fade 节点收藏
+                    %td.with_separator{:width => '34%', :align => :center}
+                      = link_to my_topics_path, :class => :dark, :style => 'display: block;' do
+                        %span.bigger= current_user.bookmarked_topics_count
+                        .sep3
+                        %span.fade 主题收藏
+                    %td{:width => '33%', :align => :center}
+                      = link_to my_following_path, :class => :dark, :style => 'display: block;' do
+                        %span.bigger= current_user.followed_user_count
+                        .sep3
+                        %span.fade 特别关注
+              .inner
+                #notification_status
+                  - if @unread_count > 0
+                    = image_tag 'dot_orange.png', :align => :absmiddle, :class => :dot_icon
+                    = link_to "#{@unread_count} 条未读提醒", notifications_path, :class => :fade
+                  - else
+                    %span.fade 0 条未读提醒
+            - else
+              .cell
+                %strong= Settings.site_name
+                .sep5
+                %span.fade= Settings.marketing.short_introduction
+              .inner
+                .sep5
+                %div{:align => 'center'}
+                  = link_to '现在注册', new_user_registration_path, :class => 'super normal button'
+                  .sep5
+                  .sep10
+                  已注册用户请
+                  = link_to '登入', new_user_session_path
+          .sep20
+          = yield :rightbar
+          - cache('banner_ads', :expires_in => 1.day) do
+            = render :partial => 'shared/ad', :collection => Advertisement.available, :as => :ad
+        #Content
+          = render 'shared/content'
+        .c
+    = render 'shared/footer'
+

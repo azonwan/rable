@@ -1,0 +1,25 @@
+- content_for :rightbar do
+  .box
+    .cell 主题创建指南
+    .inner
+      %strong •&nbsp;主题标题
+      .sep5
+      请用尽可能准确的语言在标题中描述你的问题或要点。标题是必须要有的。长度最好不要超过 50 个中文字符。
+      .sep10
+      %strong •&nbsp;主题内容
+      .sep5
+      可以在主题内容中对要点进行进一步说明，但是如果标题中已经包含了足够的信息量，则主题内容不是必须的。
+      .sep10
+      %strong •&nbsp;主题编辑
+      .sep5
+      在主题提交后，你可以在 5 分钟内自由编辑自己的主题，包括自由移动到任何节点。5 分钟之后，编辑和移动权限将会关闭。
+  .sep20
+
+.box
+  .cell
+    = build_navigation([link_to(@node.name, go_path(@node.key)), '创建新主题'], 'bigger')
+  .cell
+    = render 'form', :node => @node, :topic => @topic, :title_textarea => true
+  .inner
+    = render 'back_to_node', :node => @node
+

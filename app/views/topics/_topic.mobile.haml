@@ -1,0 +1,23 @@
+- user_nickname = topic.user.nickname
+.cell
+  %table{:cellpadding => 0, :cellspacing => 0, :border => 0, :width => '100%'}
+    %tr
+      %td.avatar{:valign => :top}
+        = link_to member_path(user_nickname) do
+          = image_tag topic.user.avatar.url(:medium)
+      %td{:valign => :top, :style => 'padding-left: 8px;'}
+        %span.fade
+          = link_to user_nickname, member_path(user_nickname)
+          &nbsp;in&nbsp;
+          = link_to topic.node.name, go_path(topic.node.key)
+          %small
+            收到
+            = topic.comments.count
+            回复
+        .sep5
+        %span.bigger
+          = link_to topic.title, t_path(topic.id)
+        %span.created
+          = time_ago_in_words(topic.created_at)
+
+

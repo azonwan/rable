@@ -1,0 +1,39 @@
+- add_breadcrumb link_to(@node.name, go_path(@node.key), :class => :black)
+- user_nickname = @topic.user.nickname
+.cell
+  %table{:cellpadding => 0, :cellspacing => 0, :border => 0, :width => '100%'}
+    %tr
+      %td.avatar{:valign => :top}
+        = link_to member_path(user_nickname) do
+          = image_tag @topic.user.avatar.url(:medium)
+      %td{:valign => :top, :style => 'padding-left: 5px;'}
+        %h1= @topic.title
+        .sep5
+        %span.fade
+          By
+          = link_to user_nickname, member_path(user_nickname)
+          = time_ago_in_words(@topic.created_at)
+          - if @topic.hit > 0
+            = " - #{@topic.hit}次点击"
+        .sep10
+        = mobile_view @topic.content
+.cell
+  %strong.fade
+    共收到
+    = @topic.comments.count
+    条回复
+
+#replies
+  = render @comments
+  - if @total_pages > 1
+    .cell{:align => :center}
+      = paginate @comments, :param_name => :p, :theme => 'project_babel'
+
+- if user_signed_in?
+  .cell
+    %span.fade 现在就添加一条回复
+    = form_for [@topic, @new_comment] do |f|
+      .sep5
+      = f.text_area :content, :class => :mll
+      .sep5
+      = f.submit '发送'

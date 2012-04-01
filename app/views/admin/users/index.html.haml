@@ -1,0 +1,19 @@
+.box
+  .cell
+    = build_admin_navigation([@title])
+  .cell
+    %table{:cellpadding => 5, :cellspacing => 0, :border => 0, :width => '100%'}
+      %thead
+        %tr
+          %th{:align => :right} ID
+          %th.w50{:align => :right} 角色
+          %th.auto{:align => :left} 昵称
+          %th.auto{:align => :left} Email
+          %th.auto{:align => :right} 注册时间
+          %th.auto{:align => :right} 最后登录
+          %th.auto{:align => :center} 头像
+          %th{:align => :left} 操作
+      %tbody
+        = render @users
+  .inner{:align => :center}
+    = paginate @users, :theme => 'project_babel'

@@ -1,0 +1,7 @@
+.box
+  .inner
+    .fr
+      = admin_create_button('添加位面', :plane, :remote => true)
+    = build_admin_navigation([@title])
+
+= render @planes

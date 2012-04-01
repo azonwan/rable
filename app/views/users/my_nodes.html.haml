@@ -1,0 +1,12 @@
+.box
+  .cell
+    = build_navigation(['我收藏的节点'])
+  .inner
+    %table{:cellpadding => 0, :cellspacing => 0, :border => 0, :width => '100%'}
+      %tr
+        %td{:width => '50%', :align => :left, :valign => :top}
+          %table{:cellpadding => 5, :cellspacing => 0, :border => 0, :width => '100%'}
+            = render :partial => 'nodes/bookmark_node', :collection => @my_nodes, :as => :node
+        %td{:width => '50%', :align => :left, :valign => :top}
+          %table{:cellpadding => 5, :cellspacing => 0, :border => 0, :width => '100%'}
+

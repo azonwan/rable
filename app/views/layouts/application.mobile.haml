@@ -1,0 +1,40 @@
+!!! 5
+%html{:lang => 'zh-CN'}
+  %head
+    %meta{:charset => 'UTF-8'}
+    %meta{:name => 'HandheldFriendly', :content => 'True'}
+    %meta{:content => "width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0", :name => :viewport}
+    %meta{:name => 'description', :content => Settings.seo.description}
+    %title= title
+    = stylesheet_link_tag "mobile"
+    = javascript_include_tag "application"
+    = csrf_meta_tags
+  %body
+    #Top
+      #Member
+        - if user_signed_in?
+          = link_to member_path(current_user.nickname), :class => :icon do
+            = image_tag current_user.avatar.url(:mini), :width => 24, :height => 24
+          &nbsp;
+          = link_to settings_path, :class => :icon do
+            = image_tag 'mobile/gear.png', :class => :gear
+          &nbsp;
+          = link_to destroy_user_session_path, :method => :delete, :class => :icon do
+            = image_tag 'mobile/eject.png', :class => :eject
+        - else
+          = link_to '登入', new_user_session_path, :class => :white
+          &nbsp;|&nbsp;
+          = link_to '注册', new_user_registration_path, :class => :white
+      = link_to Settings.site_name, root_path, :id => :Logo
+    #Main
+      .section
+        .fr
+          = yield :nav_right
+        = build_breadcrumbs
+      = yield
+    .cell_bottom
+      &copy;
+      = "2011 - #{Time.now.year}"
+      = link_to Settings.site_name, root_url
+      \/ Powered by
+      = link_to "Rabel #{Rabel.version}", 'http://rabelapp.com/page/about', :target => '_blank'

@@ -1,0 +1,36 @@
+= form_for [:admin, plane, node], :remote => true do |f|
+  %table
+    %tr
+      %td
+        = f.label :key, '自定义URL'
+        %small.smaller (必填)
+    %tr
+      %td{:style => 'position: relative;'}
+        %span{:style => 'position: absolute; top: 4px; left: 5px; font-size: 14px;'} /go/
+        = f.text_field :key, :class => :sl, :style => 'padding-left: 2em;', :autofocus => true
+    %tr
+      %td
+        = f.label :name, '名称'
+        %small.smaller
+          例如, Ruby on Rails
+        %small.smaller (必填)
+    %tr
+      %td
+        = f.text_field :name, :class => :sl
+    %tr
+      %td
+        = f.label :introduction, '一句话简介'
+    %tr
+      %td
+        = f.text_field :introduction, :class => :sll
+    %tr
+      %td
+        = f.label :custom_html, '自定义内容'
+        %small.smaller
+          显示在右侧边栏的内容，支持html。
+    %tr
+      %td
+        = f.text_area :custom_html, :class => :mle
+    %tr
+      %td
+        = f.submit '保存', :class => 'super normal button'

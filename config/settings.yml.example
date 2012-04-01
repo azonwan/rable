@@ -1,0 +1,41 @@
+default: &default
+  site_name: 'Rabel' # 站点名称，如: V2EX
+  site_domain: 'example.com' # 网站域名，不需要加http://
+  system_email: 'support@example.com' # 发送系统邮件使用的邮件地址
+  welcome: '欢迎访问<strong>Rabel</strong>' # 网站欢迎语, 支持html标签
+  comment_tips: '请认真考虑自己的回复能够如何帮助到别人。' # 用户发帖表单下方的提示
+  splash: '<div class="hero_unit"><h1>Rabel</h1><p>Project Babel 2 on Rails</p></div>'
+  ga_id: 'UA-XXXXXXXX-X' # Google Analytics ID
+  default_search_engine: 'google' # 默认搜索引擎，可从下面的搜索引擎列表中选择
+  search_engines:
+    google: 'http://www.google.com.hk/search?q='
+    bing: 'http://cn.bing.com/search?q='
+    baidu: 'http://www.baidu.com/s?wd='
+  seo:
+    description: 'Rabel - Project Babel 2 on Rails' # HTML meta标签内容，用于SEO
+  marketing:
+    short_introduction: '使用Rails 3.1开发的PB2' # 网站简短介绍, 显示在右侧边栏
+    slogan: 'Project Babel 2 on Rails' # 网站口号，市场定位，显示在页面底部
+    keywords: ['Rails', 'PostgreSQL', 'BDD'] # 社区关键字
+  pagination:
+    topics_per_node: 5
+    comments_per_topic: 5
+  memcached:
+    servers: ["127.0.0.1:11211"] # Memcached 服务器，多台服务器可以这样配置: ["127.0.0.1:11211", "192.168.1.100:59337"]
+
+production:
+  <<: *default
+
+development:
+  <<: *default
+  site_domain: 'www.v2ex.com'
+
+test:
+  <<: *default
+  site_domain: 'www.v2ex.com'
+  default_password: 'project_rabel'
+  default_search_engine: 'bing' # to bypass GFW in cucumber tests
+  pagination:
+    topics_per_node: 5
+    comments_per_topic: 2
+

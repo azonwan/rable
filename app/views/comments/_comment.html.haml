@@ -1,0 +1,23 @@
+.cell.reply
+  %table{:cellpadding => 0, :cellspacing => 0, :border => 0, :width => '100%'}
+    %tr
+      %td{:valign => :top, :width => 48}
+        = link_to member_path(comment.user.nickname) do
+          = image_tag comment.user.avatar.url(:medium)
+      %td{:width => 10}
+      %td{:width => :auto, :valign => :top}
+        .fr
+          %strong
+            %small.snow
+              - _num = comment_counter + 1
+              - if @total_pages > 1
+                = "##{Settings.pagination.comments_per_topic * (@page_num.to_i - 1) + _num} -"
+              - else
+                = "##{_num} -"
+              = time_ago_in_words(comment.created_at)
+              - if user_signed_in?
+                = image_tag 'reply_button.png', :align => :absmiddle, :border => 0, :class => 'clickable mention_button', :data => {:mention => "@#{comment.user.nickname}"}
+        .sep3
+        %strong= link_to comment.user.nickname, member_path(comment.user.nickname), :class => :dark
+        .sep5
+        .content.reply_content= parse_markdown comment.content

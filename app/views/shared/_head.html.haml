@@ -1,0 +1,11 @@
+%meta{:charset => 'UTF-8'}
+%meta{:name => 'HandheldFriendly', :content => 'True'}
+%meta{:content => "width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0", :name => :viewport}
+%meta{:name => 'description', :content => Settings.seo.description}
+%title= title
+= favicon_link_tag
+= auto_discovery_link_tag :atom, topics_path(:atom)
+%link{:rel => :canonical, :href => "http://#{Settings.site_domain}/"}
+= stylesheet_link_tag "application"
+= javascript_include_tag "application"
+= csrf_meta_tags

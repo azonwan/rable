@@ -1,0 +1,37 @@
+#Bottom
+  #BottomMain
+    .fr{:align => 'right'}
+      = link_to 'http://rubyonrails.org/', :target => '_blank' do
+        = image_tag 'rails.png'
+      .sep10
+      %strong
+        = link_to 'Ruby on Rails', 'http://rubyonrails.org/', :target => '_blank'
+      .sep20
+    %strong
+      = render :partial => 'pages/nav', :collection => Page.only_published.default_order, :spacer_template => 'pages/nav_ruler'
+    .sep10
+    .sep5
+    %span.fade= Settings.marketing.slogan
+    .sep10
+    .sep5
+    %small
+      = Rabel.version
+      .sep3
+      Built on Rails
+      = Rails.version
+  - if Rails.env.production? and Settings.ga_id.present?
+    %script{:type => 'text/javascript'}
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', '#{Settings.ga_id}']);
+      _gaq.push(['_trackPageview']);
+      (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+:javascript
+  jQuery(function($) {
+    window.rabel.search_engine_url = "#{search_engine_url}";
+    #{yield :template_js}
+  });
+

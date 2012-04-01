@@ -1,0 +1,9 @@
+= form_for [node, topic] do |f|
+  - if title_textarea
+    = f.text_area :title, :class => :mll, :style => 'height: 50px;', :maxlength => 120, :autofocus => true
+  - else
+    = f.text_field :title, :class => :sll
+  .sep10
+  = f.text_area :content, :class => :mll
+  .sep10
+  = f.submit (topic.new_record? ? '创建' : '提交修改'), :class => 'super normal button'

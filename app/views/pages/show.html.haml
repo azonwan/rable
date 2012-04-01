@@ -1,0 +1,12 @@
+.box
+  .cell
+    = build_navigation([@title])
+  .inner
+    - if current_user && current_user.can_manage_site?
+      .fr
+        = link_to '修改', edit_admin_page_path(@page), :class => :op
+    - cache(@page) do
+      .page
+        %h1= @title
+        = parse_markdown @page.content
+
